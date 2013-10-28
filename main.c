@@ -74,7 +74,7 @@ int main(void) {
 			var_init++;
 			i+=1;
 			ROM_GPIOPinWrite(GPIO_PORTF_BASE, LED_RED|LED_GREEN|LED_BLUE, i);
-			ROM_SysCtlDelay(10000);
+			ROM_SysCtlDelay(1000);
 			ROM_GPIOPinWrite(GPIO_PORTF_BASE, LED_RED|LED_GREEN|LED_BLUE, 0);
 			ROM_SysCtlDelay(1000000);
 			long val = GPIOPinRead(GPIO_PORTF_BASE,BUTTON_2);
