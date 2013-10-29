@@ -34,25 +34,39 @@ int main(void) {
     ROM_GPIOPinTypeGPIOInput(GPIO_PORTF_BASE, BUTTON_1|BUTTON_2);			//	PORT F BUTTONS
     // turn weak pull-ups on
     ROM_GPIOPadConfigSet(GPIO_PORTF_BASE, BUTTON_1|BUTTON_2, GPIO_STRENGTH_2MA,GPIO_PIN_TYPE_STD_WPU);
-	ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);						// PORT A
-	ROM_GPIOPinTypeGPIOOutput(GPIO_PORTA_BASE, TX_PIN);						// PORT A RF_TX_PIN
+
+
+
+    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);	// PORT A
+    ROM_GPIOPinTypeGPIOOutput(TX_PORT, TX_PIN);			// PORT A RF_TX_PIN
+	ROM_GPIOPinTypeGPIOInput(RX_PORT, RX_PIN);
 	while(1)
     {	
 		int i = 0;
 		for (i=0;i<16;i++) {
 			var_init++;
 			i+=1;
-			ROM_GPIOPinWrite(GPIO_PORTF_BASE, LED_RED|LED_GREEN|LED_BLUE, i);
-			ROM_SysCtlDelay(1000);
+			ROM_GPIOPinWrite(GPIO_PORTF_BASE, LED_RED|LED_GREEN|LED_BLUE, 2);
+			ROM_SysCtlDelay(200);
 			ROM_GPIOPinWrite(GPIO_PORTF_BASE, LED_RED|LED_GREEN|LED_BLUE, 0);
-			ROM_SysCtlDelay(1000000);
+			ROM_SysCtlDelay(1000);
 			long val = ROM_GPIOPinRead(GPIO_PORTF_BASE,BUTTON_2);
 
+			long rx_val = ROM_GPIOPinRead(RX_PORT,RX_PIN);
 			if(!val)
 				SendChip();
 
+			if(rx_val)
+			{
+				ROM_GPIOPinWrite(GPIO_PORTF_BASE, LED_RED|LED_GREEN|LED_BLUE, 4);
+				ROM_SysCtlDelay(90000);
+				//ROM_GPIOPinWrite(GPIO_PORTF_BASE, LED_RED|LED_GREEN|LED_BLUE, 0);
+				//ROM_SysCtlDelay(100);
+
+			}
 			if(i>=15)
 			{
+				//SendChip();
 				i=0;
 			}
 		}
@@ -61,9 +75,11 @@ int main(void) {
 
 void SendChip()
 {
+	ROM_GPIOPinWrite(GPIO_PORTF_BASE, LED_RED|LED_GREEN|LED_BLUE, 0);
 	ROM_GPIOPinWrite(GPIO_PORTA_BASE, TX_PIN , 0x80);
-	ROM_SysCtlDelay(10000000);
+	ROM_SysCtlDelay(90000);
 	ROM_GPIOPinWrite(GPIO_PORTA_BASE, TX_PIN , 0x00);
+	ROM_SysCtlDelay(10);
 }
 
 // The interrupt function definition.
