@@ -69,6 +69,6 @@ void SendChip()
 // The interrupt function definition.
 void Timer1A_ISR(void)
 {
-	TimerIntClear(TIMER1_BASE, TIMER_TIMA_TIMEOUT);
+	ROM_TimerIntClear(TIMER1_BASE, TIMER_TIMA_TIMEOUT);
 	count++;
 }
