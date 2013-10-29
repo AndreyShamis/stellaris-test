@@ -43,30 +43,23 @@ int main(void) {
 	ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
 
 	ROM_GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, LED_RED|LED_BLUE|LED_GREEN);
-	//ROM_GPIOPinTypeGPIOInput(GPIO_PORTF_BASE,GPIO_PIN_4);
-    // Unlock PF0 so we can change it to a GPIO input
+
+	// Unlock PF0 so we can change it to a GPIO input
     // Once we have enabled (unlocked) the commit register then re-lock it
     // to prevent further changes.  PF0 is muxed with NMI thus a special case.
     HWREG(GPIO_PORTF_BASE + GPIO_O_LOCK) = GPIO_LOCK_KEY_DD;
     HWREG(GPIO_PORTF_BASE + GPIO_O_CR) |= 0x01;
     HWREG(GPIO_PORTF_BASE + GPIO_O_LOCK) = 0;
+
     // set user switches as inputs
     GPIOPinTypeGPIOInput(GPIO_PORTF_BASE, BUTTON_1|BUTTON_2);
 
     // turn weak pull-ups on
-      GPIOPadConfigSet(GPIO_PORTF_BASE, BUTTON_1|BUTTON_2, GPIO_STRENGTH_2MA,
-      GPIO_PIN_TYPE_STD_WPU);
+    GPIOPadConfigSet(GPIO_PORTF_BASE, BUTTON_1|BUTTON_2, GPIO_STRENGTH_2MA,GPIO_PIN_TYPE_STD_WPU);
 
 	ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
 
 	ROM_GPIOPinTypeGPIOOutput(GPIO_PORTA_BASE, TX_PIN);
-
-
-	//ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
-
-
-	//GPIOPinTypeGPIOOutput(GPIO_PORTA_BASE, TX_PIN);
-
 	while(1)
     {	
 		int i = 0;
@@ -83,9 +76,6 @@ int main(void) {
 			if(i>=15)
 			{
 				i=0;
-				//ROM_GPIOPinWrite(GPIO_PORTA_BASE, TX_PIN,1);
-
-
 			}
 		}
     }
