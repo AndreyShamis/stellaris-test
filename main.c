@@ -1,20 +1,5 @@
-#include "inc/hw_ints.h"
-#include "inc/hw_gpio.h"
-#include "inc/hw_memmap.h"
-#include "inc/hw_sysctl.h"
-#include "inc/hw_types.h"
-#include "driverlib/gpio.h"
-#include "driverlib/sysctl.h"
-#include "driverlib/interrupt.h"
-#include "driverlib/timer.h"
-#include "driverlib/rom.h"
+#include "includes.h"
 
-#define LED_RED GPIO_PIN_1
-#define LED_BLUE GPIO_PIN_2
-#define LED_GREEN GPIO_PIN_3
-#define TX_PIN GPIO_PIN_7
-#define BUTTON_1 GPIO_PIN_0
-#define BUTTON_2 GPIO_PIN_4
 
 // Basically here I'm checking that everything works fine.
 volatile unsigned long count;
@@ -30,7 +15,7 @@ int main(void) {
 	ROM_TimerConfigure(TIMER1_BASE, TIMER_CFG_SPLIT_PAIR | TIMER_CFG_A_PERIODIC);
 	ROM_TimerControlStall(TIMER1_BASE, TIMER_A, true);
 	ROM_TimerLoadSet(TIMER1_BASE, TIMER_A, 2111);
-	TimerIntRegister(TIMER1_BASE, TIMER_A, Timer1A_ISR);
+	TimerIntRegister(TIMER1_BASE, TIMER_A, Timer1A_ISR);	//	Register Interupt handler
 	ROM_TimerIntEnable(TIMER1_BASE, TIMER_TIMA_TIMEOUT);
 	count=3;
 	ROM_TimerEnable(TIMER1_BASE, TIMER_A);
@@ -62,8 +47,10 @@ int main(void) {
 			ROM_GPIOPinWrite(GPIO_PORTF_BASE, LED_RED|LED_GREEN|LED_BLUE, 0);
 			ROM_SysCtlDelay(1000000);
 			long val = ROM_GPIOPinRead(GPIO_PORTF_BASE,BUTTON_2);
+
 			if(!val)
 				SendChip();
+
 			if(i>=15)
 			{
 				i=0;

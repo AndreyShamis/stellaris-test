@@ -1,4 +1,5 @@
-main.d: ../main.c /home/tester/devel/stellaris-launchpad/inc/hw_ints.h \
+main.d: ../main.c ../includes.h \
+ /home/tester/devel/stellaris-launchpad/inc/hw_ints.h \
  /home/tester/devel/stellaris-launchpad/inc/hw_gpio.h \
  /home/tester/devel/stellaris-launchpad/inc/hw_memmap.h \
  /home/tester/devel/stellaris-launchpad/inc/hw_sysctl.h \
@@ -8,7 +9,9 @@ main.d: ../main.c /home/tester/devel/stellaris-launchpad/inc/hw_ints.h \
  /home/tester/devel/stellaris-launchpad/driverlib/sysctl.h \
  /home/tester/devel/stellaris-launchpad/driverlib/interrupt.h \
  /home/tester/devel/stellaris-launchpad/driverlib/timer.h \
- /home/tester/devel/stellaris-launchpad/driverlib/rom.h
+ /home/tester/devel/stellaris-launchpad/driverlib/rom.h ../define_pins.h
+
+../includes.h:
 
 /home/tester/devel/stellaris-launchpad/inc/hw_ints.h:
 
@@ -31,3 +34,5 @@ main.d: ../main.c /home/tester/devel/stellaris-launchpad/inc/hw_ints.h \
 /home/tester/devel/stellaris-launchpad/driverlib/timer.h:
 
 /home/tester/devel/stellaris-launchpad/driverlib/rom.h:
+
+../define_pins.h:
