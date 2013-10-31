@@ -46,16 +46,19 @@ int main(void) {
 		for (i=0;i<16;i++) {
 			var_init++;
 			i+=1;
-			ROM_GPIOPinWrite(GPIO_PORTF_BASE, LED_RED|LED_GREEN|LED_BLUE, 2);
+			//ROM_GPIOPinWrite(GPIO_PORTF_BASE, LED_RED|LED_GREEN|LED_BLUE, 2);
 			ROM_SysCtlDelay(200);
-			ROM_GPIOPinWrite(GPIO_PORTF_BASE, LED_RED|LED_GREEN|LED_BLUE, 0);
-			ROM_SysCtlDelay(1000);
+			//ROM_GPIOPinWrite(GPIO_PORTF_BASE, LED_RED|LED_GREEN|LED_BLUE, 0);
+			//ROM_SysCtlDelay(1000);
 			long val = ROM_GPIOPinRead(GPIO_PORTF_BASE,BUTTON_2);
 
 			long rx_val = ROM_GPIOPinRead(RX_PORT,RX_PIN);
+			//if(!val)
+			//	SendChip();
 			if(!val)
-				SendChip();
-
+				EnbaleTx();
+			else
+				DisableTx();
 			if(rx_val)
 			{
 				ROM_GPIOPinWrite(GPIO_PORTF_BASE, LED_RED|LED_GREEN|LED_BLUE, 4);
@@ -80,6 +83,20 @@ void SendChip()
 	ROM_SysCtlDelay(90000);
 	ROM_GPIOPinWrite(GPIO_PORTA_BASE, TX_PIN , 0x00);
 	ROM_SysCtlDelay(10);
+}
+
+void EnbaleTx()
+{
+	ROM_GPIOPinWrite(GPIO_PORTA_BASE, TX_PIN , 0x80);
+	ROM_GPIOPinWrite(GPIO_PORTF_BASE, LED_RED|LED_GREEN|LED_BLUE, 2);
+
+}
+
+void DisableTx()
+{
+	ROM_GPIOPinWrite(GPIO_PORTA_BASE, TX_PIN , 0x00);
+	ROM_GPIOPinWrite(GPIO_PORTF_BASE, LED_RED|LED_GREEN|LED_BLUE, 0);
+	ROM_SysCtlDelay(9000);
 }
 
 // The interrupt function definition.
