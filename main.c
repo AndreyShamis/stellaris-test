@@ -1,15 +1,16 @@
 #include "includes.h"
 
-
-// Basically here I'm checking that everything works fine.
 volatile unsigned long count;
-long var_init = 2;
 
+long var_init = 2;
+int  uart_controll = 0;
 // An interrupt function.
 void Timer1A_ISR(void);
+// An interrupt function.
+
 void UARTIntHandler(void);
 void UARTSend(const unsigned char *pucBuffer, unsigned long ulCount);
-
+void SendTx(char *string,int size);
 
 /**
  * main function
@@ -19,7 +20,6 @@ int main(void)
     // Enable lazy stacking for interrupt handlers.  This allows floating-point
     // instructions to be used within interrupt handlers, but at the expense of
     // extra stack usage.
-    //
     ROM_FPUEnable();
     ROM_FPULazyStackingEnable();
 
@@ -46,8 +46,6 @@ int main(void)
     GPIOPinConfigure(GPIO_PA1_U0TX);
     ROM_GPIOPinTypeUART(GPIO_PORTA_BASE, GPIO_PIN_0 | GPIO_PIN_1);
 
-
-
 	ROM_GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, LED_RED|LED_BLUE|LED_GREEN);	//	PORT F LED
 
 	// Unlock PF0 so we can change it to a GPIO input
@@ -70,7 +68,6 @@ int main(void)
     ROM_IntEnable(INT_UART0);
     ROM_UARTIntEnable(UART0_BASE, UART_INT_RX | UART_INT_RT);
 
-
     //ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);	// PORT A
     ROM_GPIOPinTypeGPIOOutput(TX_PORT, TX_PIN);			// PORT A RF_TX_PIN
 	ROM_GPIOPinTypeGPIOInput(RX_PORT, RX_PIN);
@@ -85,31 +82,26 @@ int main(void)
 			ROM_SysCtlDelay(200);
 			//ROM_GPIOPinWrite(GPIO_PORTF_BASE, LED_RED|LED_GREEN|LED_BLUE, 0);
 			//ROM_SysCtlDelay(1000);
-			long val = ROM_GPIOPinRead(GPIO_PORTF_BASE,BUTTON_2);
+			long val 	= ROM_GPIOPinRead(GPIO_PORTF_BASE,BUTTON_2);
 
 			long rx_val = ROM_GPIOPinRead(RX_PORT,RX_PIN);
-			//if(!val)
-			//	SendChip();
-			if(!val){
-				// Prompt for text to be entered.
-				UARTSend((unsigned char *)"Sending Char", 13);
+
+			if(!val || uart_controll == 1){
 				EnbaleTx();
-
+				uart_controll = 0;
+				ROM_SysCtlDelay(9000);
 			}
-
-			else
-				DisableTx();
+			DisableTx();
 			if(rx_val)
 			{
+				UARTSend((unsigned char *)"Rx:", sizeof("Rx:"));
+				UARTSend((unsigned char *)rx_val, sizeof(rx_val)-1);
+				UARTSend((unsigned char *)"\r\n", sizeof("\r\n"));
 				ROM_GPIOPinWrite(GPIO_PORTF_BASE, LED_RED|LED_GREEN|LED_BLUE, 4);
 				ROM_SysCtlDelay(90000);
-				//ROM_GPIOPinWrite(GPIO_PORTF_BASE, LED_RED|LED_GREEN|LED_BLUE, 0);
-				//ROM_SysCtlDelay(100);
 
 			}
-			if(i>=15)
-			{
-
+			if(i>=15){
 				//SendChip();
 				i=0;
 			}
@@ -119,15 +111,10 @@ int main(void)
 
 
 //*****************************************************************************
-//
 // The UART interrupt handler.
-//
 //*****************************************************************************
-void
-UARTIntHandler(void)
+void UARTIntHandler(void)
 {
-	//UARTSend((unsigned char *)"AAAAA", 6);
-
     unsigned long ulStatus;
     // Get the interrrupt status.
     ulStatus = ROM_UARTIntStatus(UART0_BASE, true);
@@ -138,53 +125,37 @@ UARTIntHandler(void)
     while(ROM_UARTCharsAvail(UART0_BASE))
     {
     	unsigned char ucData = ROM_UARTCharGetNonBlocking(UART0_BASE);
-
-    	if(ucData == 'a')
-    	{
-    		UARTSend((unsigned char *)"AAAAA", 6);
+    	//SendTx("Hello RussiaA)0JKL",sizeof("Hello RussiaA)0JKL"));
+    	if(ucData == 'A'){
+    		uart_controll = 1;
     	}
-    	// Read the next character from the UART and write it back to the UART.
-        //ROM_UARTCharPutNonBlocking(UART0_BASE, ucData);
-
-        //
-        // Blink the LED to show a character transfer is occuring.
-        //
-        //GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, GPIO_PIN_2);
-
-        //
+    	else if(ucData == 'Z'){
+    		uart_controll = 0;
+    	}
+    		//char str[20];
+    		//ucData = ucData + 30;
+    		//sprintf(str, "Received char %c\n", ucData);
+    		UARTSend((unsigned char *)"Received char:" , sizeof("Received char:"));
+    		//UARTSend((unsigned char *)ucData, 2);
+    		ROM_UARTCharPutNonBlocking(UART0_BASE, ucData);
+    		UARTSend((unsigned char *)"\r\n" , sizeof("\r\n"));
+    	//}
         // Delay for 1 millisecond.  Each SysCtlDelay is about 3 clocks.
         SysCtlDelay(SysCtlClockGet() / (1000 * 3));
-
-        //
-        // Turn off the LED
-        //
-        //GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, 0);
-
     }
-
 }
 
 //*****************************************************************************
-//
 // Send a string to the UART.
-//
 //*****************************************************************************
-void
-UARTSend(const unsigned char *pucBuffer, unsigned long ulCount)
+void UARTSend(const unsigned char *pucBuffer, unsigned long ulCount)
 {
-    //
     // Loop while there are more characters to send.
-    //
-    while(ulCount--)
-    {
-        //
+    while(ulCount--){
         // Write the next character to the UART.
-        //
         ROM_UARTCharPutNonBlocking(UART0_BASE, *pucBuffer++);
     }
 }
-
-
 
 void SendChip()
 {
@@ -193,6 +164,22 @@ void SendChip()
 	ROM_SysCtlDelay(90000);
 	ROM_GPIOPinWrite(GPIO_PORTA_BASE, TX_PIN , 0x00);
 	ROM_SysCtlDelay(10);
+}
+
+void SendTx(char *string,int size)
+{
+	ROM_GPIOPinWrite(GPIO_PORTF_BASE, LED_RED|LED_GREEN|LED_BLUE, 2);
+	int i=0;
+	//for(i=0; i<size; i++){
+	//	ROM_GPIOPinWrite(GPIO_PORTA_BASE, TX_PIN , string[i]);
+	//	ROM_SysCtlDelay(2000);
+	//}
+	for(i=0; i<255; i++){
+			ROM_GPIOPinWrite(GPIO_PORTA_BASE, TX_PIN , i);
+			ROM_SysCtlDelay(100);
+		}
+
+	ROM_GPIOPinWrite(GPIO_PORTA_BASE, TX_PIN , 0x00);
 }
 
 void EnbaleTx()
@@ -205,8 +192,10 @@ void EnbaleTx()
 void DisableTx()
 {
 	ROM_GPIOPinWrite(GPIO_PORTA_BASE, TX_PIN , 0x00);
+	ROM_SysCtlDelay(100);
+	ROM_GPIOPinWrite(GPIO_PORTA_BASE, TX_PIN , 0x00);
 	ROM_GPIOPinWrite(GPIO_PORTF_BASE, LED_RED|LED_GREEN|LED_BLUE, 0);
-	ROM_SysCtlDelay(9000);
+	ROM_SysCtlDelay(800);
 }
 
 // The interrupt function definition.
