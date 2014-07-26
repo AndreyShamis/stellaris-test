@@ -1,6 +1,11 @@
 eclipse.preferences.version=1
 environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1650201528/PATH/delimiter=\:
 environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1650201528/PATH/operation=replace
-environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1650201528/PATH/value=/home/tester/devel/gcc-arm-none-eabi/bin\:/bin\:/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/usr/games\:/usr/local/games
+environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1650201528/PATH/value=/home/werd/devel/gcc-arm-none-eabi-4_8/bin\:/bin\:/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/usr/games\:/usr/local/games
 environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1650201528/append=true
 environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1650201528/appendContributed=true
+environment/project/cdt.managedbuild.config.gnu.cross.exe.release.1961907368/PATH/delimiter=\:
+environment/project/cdt.managedbuild.config.gnu.cross.exe.release.1961907368/PATH/operation=replace
+environment/project/cdt.managedbuild.config.gnu.cross.exe.release.1961907368/PATH/value=/home/tester/devel/gcc-arm-none-eabi-4_8/bin\:/bin\:/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/usr/games\:/usr/local/games
+environment/project/cdt.managedbuild.config.gnu.cross.exe.release.1961907368/append=true
+environment/project/cdt.managedbuild.config.gnu.cross.exe.release.1961907368/appendContributed=true

@@ -1,38 +1,40 @@
-main.d: ../main.c ../includes.h \
- /home/tester/devel/stellaris-launchpad/inc/hw_ints.h \
- /home/tester/devel/stellaris-launchpad/inc/hw_gpio.h \
- /home/tester/devel/stellaris-launchpad/inc/hw_memmap.h \
- /home/tester/devel/stellaris-launchpad/inc/hw_sysctl.h \
- /home/tester/devel/stellaris-launchpad/inc/hw_types.h \
- /home/tester/devel/stellaris-launchpad/driverlib/gpio.h \
- /home/tester/devel/stellaris-launchpad/driverlib/pin_map.h \
- /home/tester/devel/stellaris-launchpad/driverlib/sysctl.h \
- /home/tester/devel/stellaris-launchpad/driverlib/interrupt.h \
- /home/tester/devel/stellaris-launchpad/driverlib/timer.h \
- /home/tester/devel/stellaris-launchpad/driverlib/rom.h ../define_pins.h
+main.d: ../main.c ../includes.h /home/werd/devel/stellaris/inc/hw_ints.h \
+ /home/werd/devel/stellaris/inc/hw_gpio.h \
+ /home/werd/devel/stellaris/inc/hw_memmap.h \
+ /home/werd/devel/stellaris/inc/hw_sysctl.h \
+ /home/werd/devel/stellaris/inc/hw_types.h \
+ /home/werd/devel/stellaris/driverlib/gpio.h \
+ /home/werd/devel/stellaris/driverlib/pin_map.h \
+ /home/werd/devel/stellaris/driverlib/sysctl.h \
+ /home/werd/devel/stellaris/driverlib/interrupt.h \
+ /home/werd/devel/stellaris/driverlib/timer.h \
+ /home/werd/devel/stellaris/driverlib/rom.h ../define_pins.h \
+ /home/werd/devel/stellaris/driverlib/uart.h
 
 ../includes.h:
 
-/home/tester/devel/stellaris-launchpad/inc/hw_ints.h:
+/home/werd/devel/stellaris/inc/hw_ints.h:
 
-/home/tester/devel/stellaris-launchpad/inc/hw_gpio.h:
+/home/werd/devel/stellaris/inc/hw_gpio.h:
 
-/home/tester/devel/stellaris-launchpad/inc/hw_memmap.h:
+/home/werd/devel/stellaris/inc/hw_memmap.h:
 
-/home/tester/devel/stellaris-launchpad/inc/hw_sysctl.h:
+/home/werd/devel/stellaris/inc/hw_sysctl.h:
 
-/home/tester/devel/stellaris-launchpad/inc/hw_types.h:
+/home/werd/devel/stellaris/inc/hw_types.h:
 
-/home/tester/devel/stellaris-launchpad/driverlib/gpio.h:
+/home/werd/devel/stellaris/driverlib/gpio.h:
 
-/home/tester/devel/stellaris-launchpad/driverlib/pin_map.h:
+/home/werd/devel/stellaris/driverlib/pin_map.h:
 
-/home/tester/devel/stellaris-launchpad/driverlib/sysctl.h:
+/home/werd/devel/stellaris/driverlib/sysctl.h:
 
-/home/tester/devel/stellaris-launchpad/driverlib/interrupt.h:
+/home/werd/devel/stellaris/driverlib/interrupt.h:
 
-/home/tester/devel/stellaris-launchpad/driverlib/timer.h:
+/home/werd/devel/stellaris/driverlib/timer.h:
 
-/home/tester/devel/stellaris-launchpad/driverlib/rom.h:
+/home/werd/devel/stellaris/driverlib/rom.h:
 
 ../define_pins.h:
+
+/home/werd/devel/stellaris/driverlib/uart.h:

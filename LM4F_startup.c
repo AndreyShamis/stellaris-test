@@ -36,6 +36,13 @@
 
 // Main should be defined on your main file so it's extern.
 extern int main(void);
+//*****************************************************************************
+//
+// External declaration for the interrupt handler used by the application.
+//
+//*****************************************************************************
+extern void UARTIntHandler(void);
+
 // rst_handler contains the code to run on reset.
 void rst_handler(void);
 // nmi_handler it's the code for an non maskerable interrupt.
@@ -94,7 +101,7 @@ void(* myvectors[])(void) = {
 	empty_def_handler,		// GPIO Port C						18
 	empty_def_handler,		// GPIO Port D						19
 	empty_def_handler,		// GPIO Port E						20
-	empty_def_handler,		// UART 0							21
+	UARTIntHandler,			// UART 0							21
 	empty_def_handler,		// UART 1							22
 	empty_def_handler,		// SSI 0							23
 	empty_def_handler,		// I2C 0							24

@@ -16,3 +16,5 @@
 
 
 #include "define_pins.h"
+
+#include "driverlib/uart.h"
