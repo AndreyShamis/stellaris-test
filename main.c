@@ -1,4 +1,8 @@
+
+#include <machine/_default_types.h>
+#include "VirtualWire.h"
 #include "includes.h"
+
 
 volatile unsigned long count;
 
@@ -71,6 +75,8 @@ int main(void)
     //ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);	// PORT A
     ROM_GPIOPinTypeGPIOOutput(TX_PORT, TX_PIN);			// PORT A RF_TX_PIN
 	ROM_GPIOPinTypeGPIOInput(RX_PORT, RX_PIN);
+
+	vw_rx_start();       // Start the receiver PLL r
 	while(1)
     {	
 		int i = 0;
@@ -87,6 +93,13 @@ int main(void)
 			long rx_val = ROM_GPIOPinRead(RX_PORT,RX_PIN);
 
 			if(!val || uart_controll == 1){
+				const char *msg = "hello";
+				digitalWrite(13, true); // Flash a light to show transmitting
+			    vw_send((uint8_t *)msg, strlen(msg));
+			    vw_wait_tx(); // Wait until the whole message is gone
+			    digitalWrite(13, false);
+			    delay(200);
+
 				EnbaleTx();
 				uart_controll = 0;
 				ROM_SysCtlDelay(9000);
@@ -94,6 +107,20 @@ int main(void)
 			DisableTx();
 			if(rx_val)
 			{
+			    uint8_t buf[VW_MAX_MESSAGE_LEN];
+			    uint8_t buflen = VW_MAX_MESSAGE_LEN;
+
+			    if (vw_get_message(buf, &buflen)) // Non-blocking
+			    {
+					int i;
+
+					for (i = 0; i < buflen; i++)
+					{
+						UARTSend((unsigned char *)"Rx:", sizeof("Rx:"));
+						UARTSend((unsigned char *)buf[i], sizeof(buf[i])-1);
+						UARTSend((unsigned char *)"\r\n", sizeof("\r\n"));
+					}
+			    }
 				UARTSend((unsigned char *)"Rx:", sizeof("Rx:"));
 				UARTSend((unsigned char *)rx_val, sizeof(rx_val)-1);
 				UARTSend((unsigned char *)"\r\n", sizeof("\r\n"));
