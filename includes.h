@@ -16,7 +16,10 @@
 
 
 #include "define_pins.h"
+#include "defines.h"
 
 #include "driverlib/uart.h"
 
+#include <string.h>
 #include <stdio.h>
+#include <stdlib.h>

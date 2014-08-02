@@ -8,7 +8,7 @@ main.d: ../main.c ../includes.h /home/werd/devel/stellaris/inc/hw_ints.h \
  /home/werd/devel/stellaris/driverlib/sysctl.h \
  /home/werd/devel/stellaris/driverlib/interrupt.h \
  /home/werd/devel/stellaris/driverlib/timer.h \
- /home/werd/devel/stellaris/driverlib/rom.h ../define_pins.h \
+ /home/werd/devel/stellaris/driverlib/rom.h ../define_pins.h ../defines.h \
  /home/werd/devel/stellaris/driverlib/uart.h
 
 ../includes.h:
@@ -36,5 +36,7 @@ main.d: ../main.c ../includes.h /home/werd/devel/stellaris/inc/hw_ints.h \
 /home/werd/devel/stellaris/driverlib/rom.h:
 
 ../define_pins.h:
+
+../defines.h:
 
 /home/werd/devel/stellaris/driverlib/uart.h:
