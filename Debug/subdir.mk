@@ -5,24 +5,15 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../LM4F_startup.c \
-../VirtualWire.c \
-../main.c \
-../receiver.c \
-../transmitter.c 
+../main.c 
 
 OBJS += \
 ./LM4F_startup.o \
-./VirtualWire.o \
-./main.o \
-./receiver.o \
-./transmitter.o 
+./main.o 
 
 C_DEPS += \
 ./LM4F_startup.d \
-./VirtualWire.d \
-./main.d \
-./receiver.d \
-./transmitter.d 
+./main.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
